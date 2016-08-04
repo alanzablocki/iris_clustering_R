@@ -15,16 +15,44 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-```{r cars}
-summary(cars)
+```
+Load required libraries
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+library(datasets)
+library(ggplot2)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```
+Select iris dataset
+```
+```{r}
+data(iris)
+head(iris)
+```
+
+```{r plot1, echo = FALSE}
+plot1 <- ggplot(iris, aes(Petal.Length, Petal.Width, color = Species)) + geom_point()
+plot(plot1)
+``` 
+
+```{r}
+set.seed(20)
+irisCluster <- kmeans(iris[, 3:4], 3, nstart = 20)
+irisCluster
+```
+
+```{r}
+table(irisCluster$cluster, iris$Species)
+```
+
+```{r}
+irisCluster$cluster <- as.factor(irisCluster$cluster)
+```
+
+```{r plot2, echo = FALSE}
+plot2 <- ggplot(iris, aes(Petal.Length, Petal.Width, color = irisCluster$cluster)) + geom_point()
+plot(plot2)
+``` 
+
